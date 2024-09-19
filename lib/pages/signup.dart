@@ -47,7 +47,7 @@ class _SignUpState extends State<SignUp> {
       } on FirebaseAuthException catch (e) {
         if (e.code == "weak-password") {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            const SnackBar(
               content: Text(
                 "Password Provided is too week",
                 style: TextStyle(fontSize: 18),
@@ -56,7 +56,7 @@ class _SignUpState extends State<SignUp> {
           );
         } else if (e.code == "email-already-in-use") {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            const SnackBar(
               backgroundColor: Colors.orangeAccent,
               content: Text(
                 "Account Already exists",
