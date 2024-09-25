@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:sign_in/service/shared_pref.dart';
 import 'package:sign_in/widgets/app_constants.dart';
 import 'package:sign_in/widgets/wigdets%20_support.dart';
 import 'package:http/http.dart' as http;
@@ -14,11 +15,33 @@ class Wallet extends StatefulWidget {
 }
 
 class _WalletState extends State<Wallet> {
+String? wallet;
+int? add;
+getthesharedpref()async{
+  wallet=await SharedPrefrenceHelper().getUserWallet();
+  setState(() {
+    
+  });
+}
+
+ontheload()async{
+  await getthesharedpref();
+  setState(() {
+    
+  });
+}
+ void initState(){
+  ontheload();
+  super.initState();
+ }
+
+
+
   Map<String,dynamic>?paymentIntent;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: wallet==null? CircularProgressIndicator(): Container(
         margin: const EdgeInsets.only(top: 60),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,9 +52,9 @@ class _WalletState extends State<Wallet> {
                 padding: const EdgeInsets.only(bottom: 10),
                 child: Center(
                   child: Text('Wallet',style:AppWidget.HeadlineTextFieldStyle(),), ), ), ),
-               SizedBox(height: 30,),
+               const SizedBox(height: 30,),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
                   width: MediaQuery.of(context).size.width,
                   decoration: const BoxDecoration(
                     color: Color(0xfff2f2f2)
@@ -39,24 +62,24 @@ class _WalletState extends State<Wallet> {
                   child:  Row(
                     children: [
                       Image.asset('images/wallet.png',width: 50,height: 50,fit: BoxFit.cover,),
-                      SizedBox(width: 30,),
+                      const SizedBox(width: 30,),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text('Total Balance',style: AppWidget.LightTextFieldStyle(),),
-                          SizedBox(height: 5,),
-                          Text('\$0.00',style: AppWidget.boldTextFieldStyle(),)
+                          const SizedBox(height: 5,),
+                          Text('\$ '+wallet!,style: AppWidget.boldTextFieldStyle(),)
                         ],
                       )
                     ],),
                 ),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
               Padding(
 
                 padding: const EdgeInsets.only(left: 20.0),
                 child: Text("Add Money",style: AppWidget.boldTextFieldStyle(),),
               ),
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -65,51 +88,66 @@ class _WalletState extends State<Wallet> {
                       makePayment("100");
                     },
                     child: Container(
-                      padding: EdgeInsets.all(5),
+                      padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
-                        border: Border.all(color: Color(0xffe9e2e2)),
+                        border: Border.all(color: const Color(0xffe9e2e2)),
                         borderRadius: BorderRadius.circular(5)
                       ),
                       child: Text("\$100",style: AppWidget.semiBoldTextFieldStyle(),),
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Color(0xffe9e2e2)),
-                      borderRadius: BorderRadius.circular(5)
+                  GestureDetector(
+                    onTap: (){
+                      makePayment("500");
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: const Color(0xffe9e2e2)),
+                        borderRadius: BorderRadius.circular(5)
+                      ),
+                      child: Text("\$500",style: AppWidget.semiBoldTextFieldStyle(),),
                     ),
-                    child: Text("\$500",style: AppWidget.semiBoldTextFieldStyle(),),
                   ),
-                  Container(
-                    padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Color(0xffe9e2e2)),
-                      borderRadius: BorderRadius.circular(5)
+                 GestureDetector(
+                    onTap: (){
+                      makePayment("1000");
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: const Color(0xffe9e2e2)),
+                        borderRadius: BorderRadius.circular(5)
+                      ),
+                      child: Text("\$1000",style: AppWidget.semiBoldTextFieldStyle(),),
                     ),
-                    child: Text("\$1000",style: AppWidget.semiBoldTextFieldStyle(),),
                   ),
-                  Container(
-                    padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Color(0xffe9e2e2)),
-                      borderRadius: BorderRadius.circular(5)
+                  GestureDetector(
+                    onTap: (){
+                      makePayment("2000");
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: const Color(0xffe9e2e2)),
+                        borderRadius: BorderRadius.circular(5)
+                      ),
+                      child: Text("\$2000",style: AppWidget.semiBoldTextFieldStyle(),),
                     ),
-                    child: Text("\$2000",style: AppWidget.semiBoldTextFieldStyle(),),
                   ),
                   
                 ],
               ),
-              SizedBox(height: 50,),
+              const SizedBox(height: 50,),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 20),
+                margin: const EdgeInsets.symmetric(horizontal: 20),
                 width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.symmetric(vertical: 10),
+                padding: const EdgeInsets.symmetric(vertical: 10),
                 decoration: BoxDecoration(
-                  color: Color(0xff008080),
+                  color: const Color(0xff008080),
                   borderRadius: BorderRadius.circular(10)
                 ),
-                child: Center(child: Text("Add Money",style: TextStyle(color: Colors.white,fontSize: 16,fontFamily: "Poppins",fontWeight: FontWeight.bold),),),
+                child: const Center(child: Text("Add Money",style: TextStyle(color: Colors.white,fontSize: 16,fontFamily: "Poppins",fontWeight: FontWeight.bold),),),
               )
           ],
         ),
@@ -133,8 +171,14 @@ class _WalletState extends State<Wallet> {
   displayPaymentSheet(String amount)async{
     try{
       await Stripe.instance.presentPaymentSheet().then((value)async{
-        showDialog(context: context, builder: (_)=>AlertDialog(
+        // it will add the amount to the wallet
+        add=int.parse(wallet!)+int.parse(amount);
+        await SharedPrefrenceHelper().saveUserWallet(add.toString());
+
+        
+        showDialog(context: context, builder: (_)=>const AlertDialog(
           content: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Row(
                 children: [
@@ -144,7 +188,7 @@ class _WalletState extends State<Wallet> {
             ],
           ),
         ));
-  
+      await getthesharedpref();
         paymentIntent=null;
       
       }).onError((error,StackTrace){
@@ -169,7 +213,7 @@ createPaymentIntent(String amount,String currency)async{
         'payment_method_types[]':'card'
     };
     var response=await http.post(
-      Uri.parse('http://api.stripe.com/v1/payment_intents'),
+      Uri.parse('https://api.stripe.com/v1/payment_intents'),
       headers: {
         'Authorization':'Bearer  $secretKey',
         'Content-Type':'application/x-www-form-urlencoded'

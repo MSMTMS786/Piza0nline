@@ -1,7 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:random_string/random_string.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in/pages/bottomnav.dart';
 import 'package:sign_in/pages/login.dart';
+import 'package:sign_in/service/database.dart';
+import 'package:sign_in/service/shared_pref.dart';
 import 'package:sign_in/widgets/wigdets%20_support.dart';
 
 
@@ -38,6 +42,19 @@ class _SignUpState extends State<SignUp> {
             ),
           ),
         );
+      String Id= randomAlphaNumeric(10);
+      Map<String, dynamic> addUserInfo = {
+        "Name":nameController.text,
+        "Email":emailController.text,
+        "Wallet":"0.00",
+        "Id":Id,
+      };
+      await DataBaseMethods().addUserDetail(addUserInfo, Id);
+      await SharedPrefrenceHelper().saveUserName(nameController.text);
+      await SharedPrefrenceHelper().saveUserEmail(emailController.text);
+      await SharedPrefrenceHelper().saveUserWallet("0.00");
+      await SharedPrefrenceHelper().saveUserId(Id);
+
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
