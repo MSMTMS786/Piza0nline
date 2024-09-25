@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:sign_in/pages/bottomnav.dart';
+import 'package:sign_in/pages/forgot_password.dart';
 import 'package:sign_in/pages/signup.dart';
 import 'package:sign_in/widgets/wigdets%20_support.dart';
 
@@ -12,6 +15,31 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   bool _obscureText = true;
+final _formKey = GlobalKey<FormState>();
+String email = "";
+String password = "";
+TextEditingController useremailController =TextEditingController();
+TextEditingController userpasswordController =TextEditingController();
+
+userLogin() async {
+  
+  try{
+    await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+     Navigator.push(context, MaterialPageRoute(builder: (context)=>const BottomNav()));
+     print("$email          $password",);
+    }on FirebaseAuthException catch(e){
+     if(e.code=="user-not-found"){
+       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("User not found",style: TextStyle(fontSize: 18,color: Colors.black),),),
+        );
+    }else if(e.code=="wrong-password"){
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Wrong Password",style: TextStyle(fontSize: 18,color: Colors.black),),),
+        );
+    }
+    }
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,78 +100,118 @@ class _LoginState extends State<Login> {
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(20)),
-                        child: Column(
-                          children: [
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              "Login",
-                              style: AppWidget.HeadlineTextFieldStyle(),
-                            ),
-                            TextField(
-                              decoration: InputDecoration(
-                                  hintText: "E-Mail",
-                                  hintStyle: AppWidget.semiBoldTextFieldStyle(),
-                                  prefixIcon: const Icon(Icons.email_outlined)),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            TextField(
-                              obscureText: _obscureText,
-                              decoration: InputDecoration(
-                                  
-                                  hintText: "Password",
-                                  hintStyle: AppWidget.semiBoldTextFieldStyle(),
-                                  prefixIcon: const Icon(Icons.password_sharp),
-                                  suffixIcon: IconButton(
-                                    icon: Icon(
-                                      _obscureText ? Icons.visibility : Icons.visibility_off,
-                                    ),
-                                    onPressed: () {
-                                      setState(() {
-                                        _obscureText = !_obscureText;
-                                      });
-                                    },
-                                  ),
-                                  ),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Container(
-                              alignment: Alignment.topRight,
-                              child: Text(
-                                "Forgot Password?",
-                                style: AppWidget.semiBoldTextFieldStyle(),
+                        child: Form(
+                          key: _formKey,
+
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 20,
                               ),
-                            ),
-                            const SizedBox(
-                              height: 80,
-                            ),
-                            Material(
-                              elevation: 4,
-                              borderRadius: BorderRadius.circular(15),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(vertical: 10),
-                                width: 200,
-                                decoration: BoxDecoration(
-                                    color: const Color(0xffff5722),
-                                    borderRadius: BorderRadius.circular(15)),
-                                child: const Center(
+                              Text(
+                                "Login",
+                                style: AppWidget.HeadlineTextFieldStyle(),
+                              ),
+                              TextFormField(
+                                controller: useremailController,
+                                validator: (value){
+                                  if(value==null || value.isEmpty){
+                                    return "Please enter email";
+                                  }
+                                  return null;
+                                 
+                                },
+                                decoration: InputDecoration(
+                                    hintText: "E-Mail",
+                                    hintStyle: AppWidget.semiBoldTextFieldStyle(),
+                                    prefixIcon: const Icon(Icons.email_outlined)),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              TextFormField(
+                                controller: userpasswordController,
+                                validator: (value){
+                                  if(value==null || value.isEmpty){
+                                    return "Please enter Pasword";
+                                  }
+                                  return null;
+                                 
+                                },
+                                obscureText: _obscureText,
+                                decoration: InputDecoration(
+                                    
+                                    hintText: "Password",
+                                    hintStyle: AppWidget.semiBoldTextFieldStyle(),
+                                    prefixIcon: const Icon(Icons.password_sharp),
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        _obscureText ? Icons.visibility : Icons.visibility_off,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _obscureText = !_obscureText;
+                                        });
+                                      },
+                                    ),
+                                    ),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              GestureDetector(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const ForgotPassword()));
+                                },
+                                child: Container(
+                                  alignment: Alignment.topRight,
                                   child: Text(
-                                    "LOGIN",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: "Poppins"),
+                                    "Forgot Password?",
+                                    style: AppWidget.semiBoldTextFieldStyle(),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
+                              const SizedBox(
+                                height: 80,
+                              ),
+                              GestureDetector(
+                                onTap: (){
+                                  if(_formKey.currentState!.validate())
+                                  {
+                                    setState(() {
+                                      email = useremailController.text;
+                                    password = userpasswordController.text;
+
+                                    
+                                    });
+                                  }
+                                  userLogin();
+                                
+                                },
+                                child: Material(
+                                  elevation: 4,
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    width: 200,
+                                    decoration: BoxDecoration(
+                                        color: const Color(0xffff5722),
+                                        borderRadius: BorderRadius.circular(15)),
+                                    child: const Center(
+                                      child: Text(
+                                        "LOGIN",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: "Poppins"),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
