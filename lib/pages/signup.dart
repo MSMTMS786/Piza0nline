@@ -223,7 +223,7 @@ class _SignUpState extends State<SignUp> {
                                 height: 20,
                               ),
                               const SizedBox(
-                                height: 80,
+                                height: 30,
                               ),
                               GestureDetector(
                                 onTap: () async {

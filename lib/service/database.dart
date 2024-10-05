@@ -8,4 +8,8 @@ class DataBaseMethods{
     .doc(Id)
     .set(userinfoMap); 
   }
+  UpdateUserwallet(String id,String amount)async{
+    return await FirebaseFirestore.instance.collection("users").doc(id).update({
+      "Wallet":amount}); 
+  }
 }
