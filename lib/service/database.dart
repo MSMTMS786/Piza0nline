@@ -12,4 +12,12 @@ class DataBaseMethods{
     return await FirebaseFirestore.instance.collection("users").doc(id).update({
       "Wallet":amount}); 
   }
+  Future addFoodItem(Map<String,dynamic>userinfoMap,String name)async{
+    return await FirebaseFirestore.instance
+    .collection(name)
+    .add(userinfoMap); 
+  }
+  Future<Stream<QuerySnapshot>>getFoodItem(String name)async{
+    return FirebaseFirestore.instance.collection(name).snapshots();
+  }
 }

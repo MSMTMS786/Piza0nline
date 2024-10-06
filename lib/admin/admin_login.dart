@@ -23,12 +23,13 @@ class _AdminLoginState extends State<AdminLogin> {
         child: Stack(
           children: [
             Container(
+              
               margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/2),
               padding: const EdgeInsets.only(top: 40,left: 20,right: 20),
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               decoration:  BoxDecoration(
-                gradient: LinearGradient(colors: [Color.fromARGB(255, 53, 51, 51),Colors.black],
+                gradient: const LinearGradient(colors: [Color.fromARGB(255, 53, 51, 51),Colors.black],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight
                 ),
@@ -39,14 +40,14 @@ class _AdminLoginState extends State<AdminLogin> {
               
             ),
             SingleChildScrollView(
-              child: Container(  
-                margin: EdgeInsets.only(left: 30,right: 30,top: 60),
+              child: Container( 
+                margin: const EdgeInsets.only(left: 30,right: 30,top: 60),
                 child: Form(
                   key: _formkey, 
                   child: Column(
                     children: [
-                      Text("Let's start with\n\t\t\t\t\t\t\tAdmin!",style: TextStyle(color: Colors.black,fontSize: 25,fontWeight: FontWeight.bold),),
-                      SizedBox(height: 30,),
+                      const Text("Let's start with\n\t\t\t\t\t\t\tAdmin!",style: TextStyle(color: Colors.black,fontSize: 25,fontWeight: FontWeight.bold),),
+                      const SizedBox(height: 30,),
                       Material(
                         elevation: 3,
                         borderRadius: BorderRadius.circular(10),
@@ -59,17 +60,17 @@ class _AdminLoginState extends State<AdminLogin> {
                           ),
                           child: Column(
                             children: [
-                              SizedBox(height: 40),
+                              const SizedBox(height: 40),
                               Container(
-                                padding: EdgeInsets.only(left: 20, top:4,bottom: 5),
-                                margin: EdgeInsets.symmetric(horizontal: 15),
+                                padding: const EdgeInsets.only(left: 20, top:4,bottom: 5),
+                                margin: const EdgeInsets.symmetric(horizontal: 15),
                                 decoration: BoxDecoration(
-                                  border: Border.all(color:Color.fromARGB(255,160,160, 147)),
+                                  border: Border.all(color:const Color.fromARGB(255,160,160, 147)),
                                   borderRadius: BorderRadius.circular(10)
                                 ),
                                 child: Center(
                                   child: TextFormField(
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       border: InputBorder.none,
                                       hintText: "Username",
                                       hintStyle: TextStyle(color:Color.fromARGB(255, 160, 160, 147) ),
@@ -83,17 +84,17 @@ class _AdminLoginState extends State<AdminLogin> {
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 40),
+                              const SizedBox(height: 40),
                               Container(
-                                padding: EdgeInsets.only(left: 20, top:4,bottom: 5),
-                                margin: EdgeInsets.symmetric(horizontal: 15),
+                                padding: const EdgeInsets.only(left: 20, top:4,bottom: 5),
+                                margin: const EdgeInsets.symmetric(horizontal: 15),
                                 decoration: BoxDecoration(
-                                  border: Border.all(color:Color.fromARGB(255,160,160, 147)),
+                                  border: Border.all(color:const Color.fromARGB(255,160,160, 147)),
                                   borderRadius: BorderRadius.circular(10)
                                 ),
                                 child: Center(
                                   child: TextFormField(
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       
                                       border: InputBorder.none,
                                        hintText: "Password",
@@ -108,20 +109,20 @@ class _AdminLoginState extends State<AdminLogin> {
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 40),
+                              const SizedBox(height: 40),
                               GestureDetector(
                                 onTap: (){
                                   LoginAdmin();
                                 },
                                 child: Container(
-                                  padding: EdgeInsets.symmetric(vertical: 12),
-                                  margin: EdgeInsets.symmetric(horizontal: 15),
+                                  padding: const EdgeInsets.symmetric(vertical: 12),
+                                  margin: const EdgeInsets.symmetric(horizontal: 15),
                                   width: MediaQuery.of(context).size.width,
                                   decoration: BoxDecoration(
                                     color: Colors.black,
                                     borderRadius: BorderRadius.circular(10)
                                   ),
-                                  child: Center(
+                                  child: const Center(
                                     child: Text("Login",style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.bold),), 
                                   ),
                                 ),
@@ -141,20 +142,21 @@ class _AdminLoginState extends State<AdminLogin> {
       ),
     );
   }
+// ignore: non_constant_identifier_names
 LoginAdmin(){
   FirebaseFirestore.instance.collection("Admin").get().then((snapshot){
     snapshot.docs.forEach((result){
       if(result.data()["id"]!=usernamecontroller.text.trim()){
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           backgroundColor: Colors.red,
           content: Text("Invalid Username")));
       }
       else if(result.data()["password"]!=userpasswordcontroller.text.trim()){
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           backgroundColor: Colors.red,
           content: Text("Invalid Password")));
       }else{
-        Route route = MaterialPageRoute(builder: (context)=>AdminHome());
+        Route route = MaterialPageRoute(builder: (context)=>const AdminHome());
         Navigator.pushReplacement(context, route);
       }
     });

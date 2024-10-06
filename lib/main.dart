@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:sign_in/admin/admin_home.dart';
 import 'package:sign_in/admin/admin_login.dart';
 import 'package:sign_in/pages/forgot_password.dart';
+import 'package:sign_in/pages/homePage.dart';
 import 'package:sign_in/pages/onboard.dart';
 import 'package:sign_in/pages/wallet.dart';
 import 'package:sign_in/widgets/app_constants.dart';
@@ -24,7 +26,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Center(
-        child: AdminLogin(),
+        child: Home(),
       ),
     );
   }
