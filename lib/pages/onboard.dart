@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sign_in/pages/Admin_or_Customer_Page.dart';
 import 'package:sign_in/pages/content_model.dart';
 import 'package:sign_in/pages/signup.dart';
 import 'package:sign_in/widgets/wigdets%20_support.dart';
@@ -85,7 +86,7 @@ class _OnBoardState extends State<OnBoard> {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const SignUp(),
+                      builder: (context) =>  AdminCustomer(),
                     ),
                   );
                 }

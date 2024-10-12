@@ -2,12 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:random_string/random_string.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sign_in/admin/admin_login.dart';
 import 'package:sign_in/pages/bottomnav.dart';
 import 'package:sign_in/pages/login.dart';
 import 'package:sign_in/service/database.dart';
 import 'package:sign_in/service/shared_pref.dart';
 import 'package:sign_in/widgets/wigdets%20_support.dart';
-
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -42,18 +42,18 @@ class _SignUpState extends State<SignUp> {
             ),
           ),
         );
-      String Id= randomAlphaNumeric(10);
-      Map<String, dynamic> addUserInfo = {
-        "Name":nameController.text,
-        "Email":emailController.text,
-        "Wallet":"0.00",
-        "Id":Id,
-      };
-      await DataBaseMethods().addUserDetail(addUserInfo, Id);
-      await SharedPrefrenceHelper().saveUserName(nameController.text);
-      await SharedPrefrenceHelper().saveUserEmail(emailController.text);
-      await SharedPrefrenceHelper().saveUserWallet("0.00");
-      await SharedPrefrenceHelper().saveUserId(Id);
+        String Id = randomAlphaNumeric(10);
+        Map<String, dynamic> addUserInfo = {
+          "Name": nameController.text,
+          "Email": emailController.text,
+          "Wallet": "0.00",
+          "Id": Id,
+        };
+        await DataBaseMethods().addUserDetail(addUserInfo, Id);
+        await SharedPrefrenceHelper().saveUserName(nameController.text);
+        await SharedPrefrenceHelper().saveUserEmail(emailController.text);
+        await SharedPrefrenceHelper().saveUserWallet("0.00");
+        await SharedPrefrenceHelper().saveUserId(Id);
 
         Navigator.pushReplacement(
           context,
@@ -100,13 +100,17 @@ class _SignUpState extends State<SignUp> {
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    colors: [Color(0xffff5c30), Color(0xffe74b1a), Colors.yellow],
+                    colors: [
+                      Color(0xffff5c30),
+                      Color(0xffe74b1a),
+                      Colors.yellow
+                    ],
                   ),
                 ),
               ),
               Container(
-                margin:
-                    EdgeInsets.only(top: MediaQuery.of(context).size.height / 3),
+                margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height / 3),
                 height: MediaQuery.of(context).size.height / 2,
                 width: MediaQuery.of(context).size.width,
                 decoration: const BoxDecoration(
@@ -168,7 +172,8 @@ class _SignUpState extends State<SignUp> {
                                 },
                                 decoration: InputDecoration(
                                     hintText: "Name",
-                                    hintStyle: AppWidget.semiBoldTextFieldStyle(),
+                                    hintStyle:
+                                        AppWidget.semiBoldTextFieldStyle(),
                                     prefixIcon:
                                         const Icon(Icons.person_2_outlined)),
                               ),
@@ -186,16 +191,16 @@ class _SignUpState extends State<SignUp> {
                                 },
                                 decoration: InputDecoration(
                                     hintText: "E-Mail",
-                                    
-                                    hintStyle: AppWidget.semiBoldTextFieldStyle(),
-                                    prefixIcon: const Icon(Icons.email_outlined)),
+                                    hintStyle:
+                                        AppWidget.semiBoldTextFieldStyle(),
+                                    prefixIcon:
+                                        const Icon(Icons.email_outlined)),
                               ),
                               const SizedBox(
                                 height: 10,
                               ),
                               TextFormField(
                                 keyboardType: TextInputType.visiblePassword,
-                                
                                 controller: passwordController,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
@@ -205,19 +210,23 @@ class _SignUpState extends State<SignUp> {
                                 },
                                 obscureText: _obscureText,
                                 decoration: InputDecoration(
-                                  suffixIcon: IconButton(
-                                    icon: Icon(
-                                      _obscureText ? Icons.visibility : Icons.visibility_off,
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        _obscureText
+                                            ? Icons.visibility
+                                            : Icons.visibility_off,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _obscureText = !_obscureText;
+                                        });
+                                      },
                                     ),
-                                    onPressed: () {
-                                      setState(() {
-                                        _obscureText = !_obscureText;
-                                      });
-                                    },
-                                  ),
                                     hintText: "Password",
-                                    hintStyle: AppWidget.semiBoldTextFieldStyle(),
-                                    prefixIcon: const Icon(Icons.password_sharp)),
+                                    hintStyle:
+                                        AppWidget.semiBoldTextFieldStyle(),
+                                    prefixIcon:
+                                        const Icon(Icons.password_sharp)),
                               ),
                               const SizedBox(
                                 height: 20,
@@ -240,12 +249,13 @@ class _SignUpState extends State<SignUp> {
                                   elevation: 4,
                                   borderRadius: BorderRadius.circular(15),
                                   child: Container(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
                                     width: 200,
                                     decoration: BoxDecoration(
                                         color: const Color(0xffff5722),
-                                        borderRadius: BorderRadius.circular(15)),
+                                        borderRadius:
+                                            BorderRadius.circular(15)),
                                     child: const Center(
                                       child: Text(
                                         "Sign Up",
@@ -265,7 +275,7 @@ class _SignUpState extends State<SignUp> {
                       ),
                     ),
                     const SizedBox(
-                      height: 60,
+                      height: 40,
                     ),
                     GestureDetector(
                       onTap: () {
@@ -279,6 +289,27 @@ class _SignUpState extends State<SignUp> {
                       child: Text(
                         "Already have an account? Login",
                         style: AppWidget.semiBoldTextFieldStyle(),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const AdminLogin(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        "Login as a Admin",
+                        style:  TextStyle(
+                          
+                          color:Color(0xffff5722),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
                       ),
                     )
                   ],

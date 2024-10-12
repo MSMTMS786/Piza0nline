@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:sign_in/admin/admin_home.dart';
+import 'package:sign_in/pages/login.dart';
 
 class AdminLogin extends StatefulWidget {
   const AdminLogin({super.key});
@@ -22,8 +23,7 @@ class _AdminLoginState extends State<AdminLogin> {
       body: Container(
         child: Stack(
           children: [
-            Container(
-              
+            Container( 
               margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/2),
               padding: const EdgeInsets.only(top: 40,left: 20,right: 20),
               height: MediaQuery.of(context).size.height,
@@ -126,7 +126,27 @@ class _AdminLoginState extends State<AdminLogin> {
                                     child: Text("Login",style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.bold),), 
                                   ),
                                 ),
-                              )
+                              ),
+                              const SizedBox(height: 20),
+                               GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Login(),
+                          ),
+                        );
+                      },
+
+                      child: const Text(
+                        "Login as a Customer",
+                        style:  TextStyle(
+                          
+                          color:Colors.black38,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    )
                             ],
                           ),
                         ),

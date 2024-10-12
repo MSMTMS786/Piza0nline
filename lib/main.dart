@@ -1,12 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:sign_in/admin/admin_home.dart';
-import 'package:sign_in/admin/admin_login.dart';
-import 'package:sign_in/pages/forgot_password.dart';
+import 'package:sign_in/pages/Admin_or_Customer_Page.dart';
+import 'package:sign_in/pages/bottomnav.dart';
+import 'package:sign_in/pages/details.dart';
 import 'package:sign_in/pages/homePage.dart';
 import 'package:sign_in/pages/onboard.dart';
-import 'package:sign_in/pages/wallet.dart';
+import 'package:sign_in/pages/order.dart';
+
 import 'package:sign_in/widgets/app_constants.dart';
 
 
@@ -23,10 +24,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Center(
-        child: Home(),
+        child: OnBoard(),
       ),
     );
   }

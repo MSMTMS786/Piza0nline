@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:sign_in/admin/admin_login.dart';
 import 'package:sign_in/pages/bottomnav.dart';
 import 'package:sign_in/pages/forgot_password.dart';
 import 'package:sign_in/pages/signup.dart';
@@ -216,7 +217,7 @@ userLogin() async {
                       ),
                     ),
                     const SizedBox(
-                      height: 60,
+                      height: 40,
                     ),
                     GestureDetector(
                       onTap: () {
@@ -230,6 +231,28 @@ userLogin() async {
                       child: Text(
                         "Don't have an account? Sign up",
                         style: AppWidget.semiBoldTextFieldStyle(),
+                      ),
+                    ), 
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const AdminLogin(),
+                          ),
+                        );
+                      },
+
+                      child: const Text(
+                        "Login as a Admin",
+                        style:  TextStyle(
+                          
+                          color:Color(0xffff5722),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
                       ),
                     )
                   ],

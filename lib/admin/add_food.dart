@@ -54,6 +54,7 @@ uploadItem()async{
         SnackBar(
           backgroundColor: Colors.green,
           content: Text("Item Added Successfully"),));
+          Navigator.pop(context);
       });
   }
 }
@@ -202,6 +203,7 @@ uploadItem()async{
             GestureDetector(
               onTap: (){
                 uploadItem();
+                
               },
               child: Center(
                 child: Material(
