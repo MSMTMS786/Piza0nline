@@ -17,31 +17,37 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   String? profile, name, email;
-
   final ImagePicker _picker = ImagePicker();
   File? selectedImage;
 
   Future getImage() async {
     var image = await _picker.pickImage(source: ImageSource.gallery);
 
-    selectedImage = File(image!.path);
-    setState(() {});
+    if (image != null) {
+      selectedImage = File(image.path);
+      setState(() {});
+      
+      // Optionally, upload the image after selecting
+      uploadItem(); // Upload the selected image
+    }
   }
 
   uploadItem() async {
     if (selectedImage != null) {
       String addId = randomAlphaNumeric(10);
       Reference firebaseStorageRef =
-          FirebaseStorage.instance.ref().child("BLocgImages").child(addId);
+          FirebaseStorage.instance.ref().child("ProfileImages").child(addId);
       final UploadTask task = firebaseStorageRef.putFile(selectedImage!);
       var downloadUrl = await (await task).ref.getDownloadURL();
-      await SharedPrefrenceHelper().saveUserProfile(downloadUrl);
-      setState(() {});
+      await SharedPrefrenceHelper().saveUserProfile(downloadUrl); // Save the image URL
+      setState(() {
+        profile = downloadUrl; // Update the profile image in state
+      });
     }
   }
 
   getthesharedpref() async {
-    profile = await SharedPrefrenceHelper().getUserProfile();
+    profile = await SharedPrefrenceHelper().getUserProfile(); // Retrieve profile image URL from shared preferences
     name = await SharedPrefrenceHelper().getUserName();
     email = await SharedPrefrenceHelper().getUserEmail();
     setState(() {});
@@ -49,16 +55,12 @@ class _ProfileState extends State<Profile> {
 
   onthisload() async {
     await getthesharedpref();
-    setState(() {
-      uploadItem();
-    });
   }
 
   @override
   void initState() {
-    onthisload();
-
     super.initState();
+    onthisload();
   }
 
   @override
@@ -231,50 +233,11 @@ class _ProfileState extends State<Profile> {
                   const SizedBox(
                     height: 20,
                   ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Material(
-                      elevation: 5,
-                      borderRadius: BorderRadius.circular(10),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 10),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: const Row(
-                          children: [
-                            Icon(
-                              Icons.description,
-                              color: Colors.black,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Terms and Condition",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
                   GestureDetector(
                     onTap: () {
                       AuthMethods().deleteUser();
-                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Login()));
+                      Navigator.pushReplacement(
+                          context, MaterialPageRoute(builder: (context) => Login()));
                     },
                     child: Container(
                       margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -318,9 +281,10 @@ class _ProfileState extends State<Profile> {
                     height: 20,
                   ),
                   GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       AuthMethods().SignOut();
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Login()));
+                      Navigator.pushReplacement(
+                          context, MaterialPageRoute(builder: (context) => Login()));
                     },
                     child: Container(
                       margin: const EdgeInsets.symmetric(horizontal: 20),

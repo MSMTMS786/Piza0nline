@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sign_in/pages/order.dart';
 import 'package:sign_in/service/database.dart';
 import 'package:sign_in/service/shared_pref.dart';
 import 'package:sign_in/widgets/wigdets%20_support.dart';
@@ -50,7 +51,8 @@ class _DetailsState extends State<Details> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        margin: const EdgeInsets.only(top: 30, right: 20, left: 10),
+
+        margin: const EdgeInsets.only(top: 40, right: 15, left: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -62,6 +64,9 @@ class _DetailsState extends State<Details> {
                 Icons.arrow_back_ios_new_outlined,
                 color: Colors.black,
               ),
+            ),
+            const SizedBox(
+              height: 10,
             ),
             Image.network(
               widget.image,
@@ -198,7 +203,12 @@ class _DetailsState extends State<Details> {
                         backgroundColor: Colors.green,
                         content: Text("Added to cart"),
                       ));
+                    Future.delayed(const Duration(seconds: 5), () {
+                        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>const Order()));
+                      });
+
                     },
+
                     child: Container(
                       padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
